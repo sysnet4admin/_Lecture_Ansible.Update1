@@ -1,0 +1,17 @@
+- name: Setup NXOS timezone with ntp configuration
+  hosts: nxos
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+    ansible_network_os: nxos
+
+  tasks:
+    - name: ntp configuration
+      nxos_config:
+        lines: 'ntp server 192.168.1.25 use-vrf management'
+        save_when: modified
+    - name: timezone to UTC 9 0
+      nxos_config:
+        lines: 'clock  timezone UTC 9 0'
+        save_when: modified

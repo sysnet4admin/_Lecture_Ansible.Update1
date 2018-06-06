@@ -1,0 +1,14 @@
+---
+- name: nxos_ping
+  hosts: nxos
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+    ansible_network_os: nxos
+
+  tasks:
+    - name: ping test from nxos to ansible-server
+      nxos_ping:
+        dest: 192.168.1.25
+        vrf: management

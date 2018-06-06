@@ -1,0 +1,12 @@
+---
+- name: Gather facts for NXOS devices
+  hosts: nxos
+  connection: network_cli
+
+  vars:
+    ansible_network_os: nxos
+
+  tasks:
+  - nxos_facts:
+    register: facts_data
+  - debug: var=facts_data

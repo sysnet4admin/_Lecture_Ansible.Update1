@@ -1,0 +1,13 @@
+---
+- name: Setup tftp to backup NXOS running-config
+  hosts: nxos
+  connection: network_cli
+
+  vars:
+    ansible_network_os: nxos
+
+  tasks:
+    - debug:
+        msg:
+          - "ansible_all_ipv4_addresses[0]: {{  ansible_all_ipv4_addresses[0] }}"
+          - "ansible_all_ipv4_addresses[1]: {{  ansible_all_ipv4_addresses[1] }}"
