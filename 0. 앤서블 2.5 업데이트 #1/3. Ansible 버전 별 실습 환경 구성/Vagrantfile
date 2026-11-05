@@ -19,7 +19,8 @@ Vagrant.configure(Vagrant_API_Version) do |config|
 	cfg.vm.network "forwarded_port", guest: 22, host: 60024, auto_correct: true, id: "ssh"
 	cfg.vm.synced_folder "../data", "/vagrant", disabled: true
 	cfg.vm.provision "shell", path: "vault_repo_4_CentOS.sh"
-	cfg.vm.provision "shell", inline: "yum install ansible -y"
+	# CentOS 7.9에는 ansible 패키지가 없다. 강의와 같은 2.4(extras의 2.4.2)를 보관본에서 설치한다
+	cfg.vm.provision "shell", inline: "yum install -y https://vault.centos.org/7.6.1810/extras/x86_64/Packages/ansible-2.4.2.0-2.el7.noarch.rpm"
 	cfg.vm.provision "file", source: "ansible_env_ready.yml", 
 	  destination: "ansible_env_ready.yml"
 	cfg.vm.provision "shell", inline: "ansible-playbook ansible_env_ready.yml"
@@ -37,7 +38,9 @@ Vagrant.configure(Vagrant_API_Version) do |config|
 	cfg.vm.synced_folder "../data", "/vagrant", disabled: true
 	cfg.vm.provision "shell", path: "vault_repo_4_CentOS.sh"
 	cfg.vm.provision "shell", inline: "yum install epel-release -y"
-	cfg.vm.provision "shell", inline: "yum install ansible -y"
+	# EPEL의 ansible은 2.9라서 강의와 같은 2.5(2.5.15)를 설치한다. 2.9에서는 nxos_config의 save가 없고
+	# tftp 백업에 쓰는 ansible_all_ipv4_addresses가 정의되지 않는다
+	cfg.vm.provision "shell", inline: "yum install -y https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.5.15-1.el7.ans.noarch.rpm"
 	cfg.vm.provision "file", source: "ansible_env_ready.yml", 
 	  destination: "ansible_env_ready.yml"
 	cfg.vm.provision "shell", inline: "ansible-playbook ansible_env_ready.yml"
